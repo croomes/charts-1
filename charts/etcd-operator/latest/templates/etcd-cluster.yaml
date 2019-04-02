@@ -16,7 +16,23 @@ spec:
   size: {{ .Values.etcdCluster.size }}
   version: "{{ .Values.etcdCluster.version }}"
   pod:
-{{ toYaml .Values.etcdCluster.pod | indent 4 }}
+    antiAffinity: {{ .Values.etcdCluster.pod.antiAffinity }}
+    {{- if .Values.etcdCluster.pod.nodeSelector }}  
+    nodeSelector: {{ toYaml .Values.etcdCluster.pod.nodeSelector }}
+    {{- end }}
+    {{- if .Values.etcdCluster.pod.resources }}  
+    resources: 
+{{ toYaml .Values.etcdCluster.pod.resources | indent 6 }}
+    {{- end }}
+    {{- if .Values.etcdCluster.enablePVC }}  
+    persistentVolumeClaimSpec:
+      storageClassName: {{ .Values.etcdCluster.pvc.storageClassName }}
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.etcdCluster.pvc.size }}
+    {{- end }}
   {{- if .Values.etcdCluster.enableTLS }}
   TLS:
 {{ toYaml .Values.etcdCluster.tls | indent 4 }}

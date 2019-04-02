@@ -134,6 +134,12 @@ etcdCluster:
         peerSecret: etcd-peer-tls
         serverSecret: etcd-server-tls
       operatorSecret: etcd-client-tls
+  ## etcd persistent volume
+  ## https://github.com/coreos/etcd-operator/blob/master/doc/user/spec_examples.md#custom-persistentvolumeclaim-definition
+  enablePVC: false
+  pvc:
+    storageClassName:
+    size: 1Gi
   ## etcd cluster pod specific values
   ## Ref: https://github.com/coreos/etcd-operator/blob/master/doc/user/spec_examples.md#three-members-cluster-with-resource-requirement
   pod:

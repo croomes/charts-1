@@ -112,6 +112,26 @@ questions:
     required: true
     label: k8s Secret Name of TLS Client Certs
     type: string
+- variable: etcdCluster.enablePVC
+  default: "false"
+  description: "Enable persistent volume for etcd"
+  type: boolean
+  required: true
+  label: Etcd Persistent Volume Enabled
+  show_subquestion_if: true
+  group: "Etcd Cluster"
+  subquestions:
+  - variable: etcdCluster.pvc.storageClassName
+    default: ""
+    description: "If undefined or set to null, using the default StorageClass. Defaults to null."
+    type: storageclass
+    label: Storage Class for Etcd Persistent Volume
+  - variable: etcdCluster.pvc.size
+    default: "1Gi"
+    description: "Etcd persistent volume size"
+    required: true
+    type: string
+    label: Etcd Persistent Volume Size
 - variable: deployments.backupOperator
   default: false
   description: "Deploy the etcd backup operator, one time deployment, delete once completed"
